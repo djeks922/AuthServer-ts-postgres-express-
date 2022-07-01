@@ -45,6 +45,27 @@ class UserService {
     const updateUser: User = await this.users.findByPk(userId);
     return updateUser;
   }
+  public async activateUser(userId: number): Promise<User> {
+
+    const findUser: User = await this.users.findByPk(userId);
+    if (!findUser) throw new HttpException(409, "You're not user");
+
+    await this.users.update({ isActive: true}, { where: { id: userId } });
+
+    const updateUser: User = await this.users.findByPk(userId);
+    return updateUser;
+  }
+  public async deactivateUser(userId: number): Promise<User> {
+
+    const findUser: User = await this.users.findByPk(userId);
+    if (!findUser) throw new HttpException(409, "You're not user");
+
+    const updatedInfo: [number, User[]] = await this.users.update({ isActive: false}, { where: { id: userId },returning:true });
+    console.log(updatedInfo[1][0])
+    // const updateUser: User = await this.users.findByPk(userId);
+    const user = (updatedInfo[1])[0]
+    return user;
+  }
 
   public async deleteUser(userId: number): Promise<User> {
     if (isEmpty(userId)) throw new HttpException(400, "You're not userId");

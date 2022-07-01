@@ -49,6 +49,26 @@ class UsersController {
       next(error);
     }
   };
+  public activateUser = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const userId = Number(req.params.id);
+      const updateUserData: User = await this.userService.activateUser(userId);
+
+      res.status(200).json({ data: updateUserData, message: 'updated' });
+    } catch (error) {
+      next(error);
+    }
+  };
+  public deactivateUser = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const userId = Number(req.params.id);
+      const updateUserData: User = await this.userService.deactivateUser(userId);
+
+      res.status(200).json({ data: updateUserData, message: 'updated' });
+    } catch (error) {
+      next(error);
+    }
+  };
 
   public deleteUser = async (req: Request, res: Response, next: NextFunction) => {
     try {

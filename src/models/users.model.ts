@@ -7,6 +7,7 @@ export class UserModel extends Model<User, UserCreationAttributes> implements Us
   public id: number;
   public email: string;
   public password: string;
+  public isActive: boolean;
 
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
@@ -28,9 +29,13 @@ export default function (sequelize: Sequelize): typeof UserModel {
         allowNull: false,
         type: DataTypes.STRING(255),
       },
+      isActive: {
+        defaultValue: false,
+        type: DataTypes.BOOLEAN(),
+      },
     },
     {
-      tableName: 'cavids',
+      tableName: 'users',
       sequelize,
     },
   );
